@@ -1,0 +1,29 @@
+{
+    "browser_action": {
+        "default_icon": "fluoroscopy_128.png"
+    },
+    "content_scripts": [
+        {
+            "js": [
+                "fluoroscopy.js"
+            ],
+            "matches": [
+                "http://anintleague01.dev.activenetwork.com:8080/*"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "description": "Fluoroscopy each point of the Poker.",
+    "icons": {
+        "128": "fluoroscopy_128.png",
+        "16": "fluoroscopy_16.png",
+        "48": "fluoroscopy_128.png"
+    },
+    "manifest_version": 2,
+    "name": "Poker Fluoroscopy",
+    "permissions": [
+        "tabs",
+        "http://anintleague01.dev.activenetwork.com:8080/"
+    ],
+    "version": "1.0"
+}
