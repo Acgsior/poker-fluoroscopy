@@ -3,7 +3,7 @@ document.getElementById('checkbox-turn-on').addEventListener('click', e => {
 });
 
 document.getElementById('checkbox-debug-mode').addEventListener('click', e => {
-  chrome.storage.local.set({ debugMode: e.target.checked });
+  chrome.runtime.sendMessage('dlcnhpjmbpkeaellhojejhhleinchdch', { debugMode: e.target.checked });
 });
 
 window.onload = () => {

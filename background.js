@@ -8,13 +8,12 @@ const updateBadge = turnOn => {
   }
 };
 
-const localSetTurnOf = value => {
-  chrome.storage.local.set({ turnOn: value });
-};
-
 chrome.runtime.onMessage.addListener((msg, _, sendResponse) => {
-  if (Object.keys(msg).includes('turnOn')) {
-    localSetTurnOf(msg.turnOn);
+  const typeKeys = Object.keys(msg);
+  if (typeKeys.includes('turnOn')) {
+    chrome.storage.local.set({ turnOn: msg.turnOn });
+  } else if (typeKeys.includes('debugMode')) {
+    chrome.storage.local.set({ debugMode: msg.debugMode });
   }
 });
 
