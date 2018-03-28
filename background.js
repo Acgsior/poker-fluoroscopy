@@ -1,4 +1,4 @@
-const updateBadgeState = turnOn => {
+const updateBadge = turnOn => {
   if (turnOn) {
     chrome.browserAction.setBadgeText({ text: 'ON' });
     chrome.browserAction.setBadgeBackgroundColor({ color: '#4688F1' });
@@ -8,18 +8,23 @@ const updateBadgeState = turnOn => {
   }
 };
 
+const localSetTurnOf = value => {
+  chrome.storage.local.set({ turnOn: value });
+};
+
 chrome.runtime.onMessage.addListener((msg, _, sendResponse) => {
-  if (msg.turnOn) {
-    updateBadgeState(true);
-  } else if (msg.turnOff) {
-    updateBadgeState(false);
+  if (Object.keys(msg).includes('turnOn')) {
+    localSetTurnOf(msg.turnOn);
   }
 });
 
-chrome.browserAction.onClicked.addListener(function(tab) {
-  const turnOn = chrome.storage.sync.get(['turnOn']);
-  chrome.storage.sync.set({ turnOn: !turnOn });
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (changes['turnOn']) {
+    const turnOn = changes['turnOn'].newValue;
+    updateBadge(turnOn);
+  }
 });
 
-chrome.storage.sync.set({ turnOn: false });
-updateBadgeState(false);
+const initTurnOn = false;
+chrome.storage.local.set({ turnOn: initTurnOn });
+updateBadge(initTurnOn);

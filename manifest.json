@@ -1,24 +1,20 @@
 {
     "background": {
-        "scripts": [
-            "background.js"
-        ]
+        "scripts": ["background.js"]
     },
     "browser_action": {
-        "default_icon": "fluoroscopy_128.png"
+        "default_icon": "fluoroscopy_128.png",
+        "default_popup": "popup.html",
+        "default_title": "Fluoroscopy each point of the ANet Poker."
     },
     "content_scripts": [
         {
-            "js": [
-                "fluoroscopy.js"
-            ],
-            "matches": [
-                "http://anintleague01.dev.activenetwork.com:8080/*"
-            ],
+            "js": ["fluoroscopy.js"],
+            "matches": ["http://anintleague01.dev.activenetwork.com:8080/*"],
             "run_at": "document_end"
         }
     ],
-    "description": "Fluoroscopy each point of the Poker.",
+    "description": "Fluoroscopy each point of the ANet Poker.",
     "icons": {
         "128": "fluoroscopy_128.png",
         "16": "fluoroscopy_16.png",
@@ -26,10 +22,6 @@
     },
     "manifest_version": 2,
     "name": "Poker Fluoroscopy",
-    "permissions": [
-        "storage",
-        "tabs",
-        "http://anintleague01.dev.activenetwork.com:8080/"
-    ],
+    "permissions": ["storage", "tabs", "http://anintleague01.dev.activenetwork.com:8080/"],
     "version": "1.0"
 }
