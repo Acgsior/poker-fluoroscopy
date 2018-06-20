@@ -2,12 +2,11 @@ body {
   width: 100px;
 }
 
-a:visited {
-  color: blue;
+a, a:visited {
+  color: cornflowerblue;
 }
 
 a:hover {
-  color: cornflowerblue;
   opacity: 0.8;
 }
 

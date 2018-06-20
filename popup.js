@@ -1,9 +1,11 @@
+const extensionId = 'dlcnhpjmbpkeaellhojejhhleinchdch';
+
 document.getElementById('checkbox-turn-on').addEventListener('click', e => {
-  chrome.runtime.sendMessage('dlcnhpjmbpkeaellhojejhhleinchdch', { turnOn: e.target.checked });
+  chrome.runtime.sendMessage(extensionId, { turnOn: e.target.checked });
 });
 
 document.getElementById('checkbox-debug-mode').addEventListener('click', e => {
-  chrome.runtime.sendMessage('dlcnhpjmbpkeaellhojejhhleinchdch', { debugMode: e.target.checked });
+  chrome.runtime.sendMessage(extensionId, { debugMode: e.target.checked });
 });
 
 window.onload = () => {

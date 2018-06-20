@@ -1,10 +1,16 @@
+const extensionId = 'dlcnhpjmbpkeaellhojejhhleinchdch';
+
 // auto turn on
 window.onload = () => {
-  chrome.runtime.sendMessage('dlcnhpjmbpkeaellhojejhhleinchdch', { turnOn: true });
+  chrome.runtime.sendMessage(extensionId, { turnOn: true });
 };
 
 let socket = null;
 let turnOn, debug;
+
+const debugLog = (msg, ...rest) => {
+  debug && console.log('== fluoroscopy', msg, ...rest);
+};
 
 const fluoroscopyByMessage = data => {
   const cards = data.cards;
@@ -28,17 +34,18 @@ const fluoroscopyByDOM = () => {
 };
 
 const turnOnSocket = () => {
-  debug && console.log('fluoroscopy: === try turn on...');
+  debugLog('try turn on...');
   chrome.storage.local.get(['debugMode', 'turnOn'], data => {
     debug = data.debugMode;
-    debug && console.log('fluoroscopy.debugMode: ', debug);
     turnOn = data.turnOn;
-    debug && console.log('fluoroscopy.turnOn', turnOn);
+
+    debugLog('debugMode:', debug);
+    debugLog('turnOn:', turnOn);
 
     if (turnOn) {
       // init
       socket = new WebSocket('ws://anintleague01.dev.activenetwork.com:8080/');
-      debug && console.log('fluoroscopy === socket created...');
+      debugLog('socket created...');
       fluoroscopyByDOM();
 
       //TODO: socket.send('{type: init-data}');
@@ -46,18 +53,18 @@ const turnOnSocket = () => {
       // listen to
       socket.addEventListener('message', event => {
         const json = event.data;
-        console.log('fluoroscopy: === message', json);
-        const data = JSON.parse(json);
+        debugLog('recieve message:', json);
+        const parsedJson = JSON.parse(json);
 
         setTimeout(() => {
           try {
-            if (data.type === 'carddisplay') {
-              fluoroscopyByMessage(data.data);
+            if (parsedJson.type === 'carddisplay') {
+              fluoroscopyByMessage(parsedJson.data);
             } else {
               fluoroscopyByDOM();
             }
           } catch (e) {
-            debug && console.log('fluoroscopy === meet error: ', e);
+            debugLog('meet error:', e);
             fluoroscopyByDOM();
           }
         }, 400);
@@ -67,13 +74,13 @@ const turnOnSocket = () => {
 };
 
 const turnOffSocket = () => {
-  debug && console.log('fluoroscopy: === try turn off...');
+  debugLog('try turn off...');
   socket && socket.close();
 };
 
 window.onunload = () => {
   turnOffSocket();
-  chrome.runtime.sendMessage('dlcnhpjmbpkeaellhojejhhleinchdch', { turnOn: false });
+  chrome.runtime.sendMessage(extensionId, { turnOn: false });
 };
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
