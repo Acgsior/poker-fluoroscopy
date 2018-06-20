@@ -1,5 +1,8 @@
 // auto turn on
-chrome.runtime.sendMessage('dlcnhpjmbpkeaellhojejhhleinchdch', { turnOn: true });
+window.onload = () => {
+  chrome.runtime.sendMessage('dlcnhpjmbpkeaellhojejhhleinchdch', { turnOn: true });
+};
+
 let socket = null;
 let turnOn, debug;
 
